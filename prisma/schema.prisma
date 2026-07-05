@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  services  String   // Comma-separated list, e.g., "Video Editing, Script Writing"
+  status    String   @default("PENDING") // PENDING, REVIEWED, COMPLETED
+  createdAt DateTime @default(now())
+}
+
+model Stat {
+  id    String @id @default(cuid())
+  label String
+  value String
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  name      String
+  location  String
+  content   String
+  stars     Int      @default(5)
+  createdAt DateTime @default(now())
+}
+
+model PortfolioItem {
+  id        String   @id @default(cuid())
+  type      String   // VIDEO_9_16, VIDEO_16_9, GRAPHIC
+  title     String
+  url       String
+  thumbnail String?  // Optional custom thumbnail image
+  category  String?  // Subcategory (e.g. "Reels", "Cinematic", "Poster")
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
