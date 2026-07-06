@@ -150,10 +150,40 @@ export default async function LandingPage() {
 
         <div className="divider-line"></div>
 
+        {/* EDITING SECTION */}
+        <section id="editing" className="section py-24 px-4 md:px-8">
+          <div className="max-w-6xl mx-auto">
+            <p className="eyebrow mb-3 reveal in">01 — Editing</p>
+            <h2 className="font-display text-4xl md:text-5xl mb-4 reveal in">Cut For The Feed. Built For The Big Screen.</h2>
+            <p className="text-inkdim max-w-xl mb-14 reveal in">
+              Two formats, one standard: fast-paced vertical edits for Reels and Shorts, and slower, long format cuts for brand films and ads. Click to watch the showreel clips.
+            </p>
+
+            <VideoPortfolio items={items.filter((i) => i.type.startsWith('VIDEO_'))} />
+          </div>
+        </section>
+
+        <div className="divider-line"></div>
+
+        {/* GRAPHIC DESIGN SECTION */}
+        <section id="design" className="section py-24 px-4 md:px-8">
+          <div className="max-w-6xl mx-auto">
+            <p className="eyebrow mb-3 reveal in">02 — Graphic Design</p>
+            <h2 className="font-display text-4xl md:text-5xl mb-4 reveal in">Visuals That Match The Brand, Every Time</h2>
+            <p className="text-inkdim max-w-xl mb-14 reveal in">
+              From single feed posts and brand covers to full carousel slides and logo concepts — click to inspect details.
+            </p>
+
+            <GraphicPortfolio items={items.filter((i) => i.type === 'GRAPHIC')} />
+          </div>
+        </section>
+
+        <div className="divider-line"></div>
+
         {/* TOOLKIT SECTION */}
         <section id="tools" className="section py-20 px-4 md:px-8">
           <div className="max-w-6xl mx-auto">
-            <p className="eyebrow mb-3 reveal in">01 — Toolkit</p>
+            <p className="eyebrow mb-3 reveal in">03 — Toolkit</p>
             <h2 className="font-display text-3xl md:text-4xl mb-12 reveal in">Built With The Industry Standard</h2>
 
             <div className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-6">
@@ -175,36 +205,6 @@ export default async function LandingPage() {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        <div className="divider-line"></div>
-
-        {/* EDITING SECTION */}
-        <section id="editing" className="section py-24 px-4 md:px-8">
-          <div className="max-w-6xl mx-auto">
-            <p className="eyebrow mb-3 reveal in">02 — Editing</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-4 reveal in">Cut For The Feed. Built For The Big Screen.</h2>
-            <p className="text-inkdim max-w-xl mb-14 reveal in">
-              Two formats, one standard: fast-paced vertical edits for Reels and Shorts, and slower, long format cuts for brand films and ads. Click to watch the showreel clips.
-            </p>
-
-            <VideoPortfolio items={items.filter((i) => i.type.startsWith('VIDEO_'))} />
-          </div>
-        </section>
-
-        <div className="divider-line"></div>
-
-        {/* GRAPHIC DESIGN SECTION */}
-        <section id="design" className="section py-24 px-4 md:px-8">
-          <div className="max-w-6xl mx-auto">
-            <p className="eyebrow mb-3 reveal in">03 — Graphic Design</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-4 reveal in">Visuals That Match The Brand, Every Time</h2>
-            <p className="text-inkdim max-w-xl mb-14 reveal in">
-              From single feed posts and brand covers to full carousel slides and logo concepts — click to inspect details.
-            </p>
-
-            <GraphicPortfolio items={items.filter((i) => i.type === 'GRAPHIC')} />
           </div>
         </section>
 
