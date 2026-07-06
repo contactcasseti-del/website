@@ -68,14 +68,10 @@ async function main() {
 
   // 5. Seed Portfolio Items
   const items = [
-    // 9:16 Video Items
-    { type: 'VIDEO_9_16', title: 'EDIT_01', url: 'https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-light-in-a-futuristic-tunnel-41793-large.mp4', category: 'Reels' },
-    { type: 'VIDEO_9_16', title: 'EDIT_02', url: 'https://assets.mixkit.co/videos/preview/mixkit-man-dancing-under-neon-lights-41794-large.mp4', category: 'Reels' },
-    { type: 'VIDEO_9_16', title: 'EDIT_03', url: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-with-neon-makeup-in-dark-room-41785-large.mp4', category: 'Reels' },
-    { type: 'VIDEO_9_16', title: 'EDIT_04', url: 'https://assets.mixkit.co/videos/preview/mixkit-dj-playing-music-at-a-neon-club-41796-large.mp4', category: 'Reels' },
-    // 16:9 Video Items
-    { type: 'VIDEO_16_9', title: 'Short Motion Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783324347/lv_0_20241001223047_vwpdlq.mp4', category: 'Cinematic' },
-    { type: 'VIDEO_16_9', title: 'Brand Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783325352/lv_0_20260606113802_xrcuoc.mp4', category: 'Cinematic' },
+    // 9:16 Vertical Reels
+    { type: 'VIDEO_9_16', title: 'Short Motion Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783324347/lv_0_20241001223047_vwpdlq.mp4', category: 'Reels' },
+    { type: 'VIDEO_9_16', title: 'Brand Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783325352/lv_0_20260606113802_xrcuoc.mp4', category: 'Reels' },
+    // 16:9 Landscape Videos (add your landscape videos here)
     // Graphic Design Items
     { type: 'GRAPHIC', title: 'Feed Post', url: '/images/post.jpg', category: 'Post' },
     { type: 'GRAPHIC', title: 'Brand Cover', url: '/images/cover.jpg', category: 'Cover' },
