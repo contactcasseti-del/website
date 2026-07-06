@@ -2,26 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  alpha: number;
-  size: number;
-  colorRgb: string;
-  decay: number;
-}
-
 export default function CursorGlow() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
   const [isInsideInput, setIsInsideInput] = useState(false);
-  const particlesRef = useRef<Particle[]>([]);
 
   useEffect(() => {
     // Check if the device supports hover (excludes touchscreens)
@@ -34,40 +21,6 @@ export default function CursorGlow() {
     const mouse = { x: 0, y: 0 };
     // Current animated position for the trailing ring
     const ring = { x: 0, y: 0 };
-    // Track last mouse position to rate-limit particle generation
-    const lastMousePos = { x: 0, y: 0 };
-
-    // Set up canvas sizing
-    const resizeCanvas = () => {
-      if (canvasRef.current) {
-        canvasRef.current.width = window.innerWidth;
-        canvasRef.current.height = window.innerHeight;
-      }
-    };
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    // Helper to spawn glitter particles
-    const spawnParticles = (x: number, y: number, count = 1) => {
-      const colors = [
-        '242, 169, 59',   // Amber
-        '255, 211, 122',  // Light gold
-        '255, 106, 43',   // Ember
-        '244, 241, 236',  // Warm white sparkle
-      ];
-      for (let i = 0; i < count; i++) {
-        particlesRef.current.push({
-          x,
-          y,
-          vx: (Math.random() - 0.5) * 1.5, // slight horizontal drift
-          vy: (Math.random() - 0.2) * 1.0 + 0.5, // slow downward gravity
-          alpha: 0.7 + Math.random() * 0.3,
-          size: Math.random() * 2.0 + 0.6, // small subtle size: 0.6px to 2.6px
-          colorRgb: colors[Math.floor(Math.random() * colors.length)],
-          decay: 0.012 + Math.random() * 0.015, // random decay rate for organic fading
-        });
-      }
-    };
 
     const onMouseMove = (e: MouseEvent) => {
       mouse.x = e.clientX;
@@ -75,14 +28,6 @@ export default function CursorGlow() {
       
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0)`;
-      }
-
-      // Spawn particles based on distance moved
-      const dist = Math.hypot(mouse.x - lastMousePos.x, mouse.y - lastMousePos.y);
-      if (dist > 12) {
-        spawnParticles(mouse.x, mouse.y, 1);
-        lastMousePos.x = mouse.x;
-        lastMousePos.y = mouse.y;
       }
 
       // 3D Parallax Tilt Effect for elements with the .tilt-card class
@@ -109,11 +54,6 @@ export default function CursorGlow() {
       if (card && (!e.relatedTarget || !(e.relatedTarget as HTMLElement).closest('.tilt-card'))) {
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
       }
-    };
-
-    const onScroll = () => {
-      // Spawn particles when page is scrolled relative to cursor position
-      spawnParticles(mouse.x, mouse.y, 2);
     };
 
     const onMouseDown = () => setIsClicked(true);
@@ -157,47 +97,11 @@ export default function CursorGlow() {
         ringRef.current.style.transform = `translate3d(${ring.x}px, ${ring.y}px, 0)`;
       }
 
-      // Update and draw particles on the canvas
-      const canvas = canvasRef.current;
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          
-          const particles = particlesRef.current;
-          for (let i = particles.length - 1; i >= 0; i--) {
-            const p = particles[i];
-            
-            // Apply drift velocity
-            p.x += p.vx;
-            p.y += p.vy;
-            p.alpha -= p.decay;
-            
-            if (p.alpha <= 0) {
-              particles.splice(i, 1);
-              continue;
-            }
-            
-            // Draw particle as a glowing soft sparkle
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${p.colorRgb}, ${p.alpha})`;
-            ctx.shadowColor = `rgba(${p.colorRgb}, 0.5)`;
-            ctx.shadowBlur = p.size * 2;
-            ctx.fill();
-            // Reset shadow to avoid slowing down rendering
-            ctx.shadowColor = 'transparent';
-            ctx.shadowBlur = 0;
-          }
-        }
-      }
-
       animationFrameId = requestAnimationFrame(tick);
     };
 
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseout', onMouseOut);
-    window.addEventListener('scroll', onScroll);
     window.addEventListener('mousedown', onMouseDown);
     window.addEventListener('mouseup', onMouseUp);
     window.addEventListener('mouseover', onMouseOver);
@@ -208,11 +112,9 @@ export default function CursorGlow() {
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseout', onMouseOut);
-      window.removeEventListener('scroll', onScroll);
       window.removeEventListener('mousedown', onMouseDown);
       window.removeEventListener('mouseup', onMouseUp);
       window.removeEventListener('mouseover', onMouseOver);
-      window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -221,13 +123,6 @@ export default function CursorGlow() {
 
   return (
     <>
-      {/* Full-screen high-performance canvas overlay for glitter particles */}
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 w-full h-full pointer-events-none z-130"
-        style={{ mixBlendMode: 'screen' }}
-      />
-
       {/* Trailing bat signal spotlight ring */}
       {!isInsideInput && (
         <div

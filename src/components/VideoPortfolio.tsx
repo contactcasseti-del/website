@@ -37,20 +37,12 @@ function VideoCard({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            if (!isEmbed && videoRef.current) {
-              videoRef.current.play().catch((error) => {
-                console.error(`Autoplay failed for video "${item.title}":`, error);
-              });
-            }
           } else {
             setIsVisible(false);
-            if (!isEmbed && videoRef.current) {
-              videoRef.current.pause();
-            }
           }
         });
       },
-      { threshold: 0.5 } // Play when at least 50% of the video card is visible
+      { threshold: 0.2 } // Start loading when 20% of the card is visible for smoother scrolling
     );
 
     const currentRef = containerRef.current;
@@ -63,7 +55,21 @@ function VideoCard({
         observer.unobserve(currentRef);
       }
     };
-  }, [isEmbed, item.title]);
+  }, []);
+
+  // Separate effect to handle play/pause after elements render and ref is set
+  useEffect(() => {
+    if (!isEmbed && videoRef.current) {
+      if (isVisible) {
+        videoRef.current.play().catch((error) => {
+          // Log fallback (browsers sometimes block until interaction)
+          console.log(`Autoplay wait for interaction for "${item.title}"`);
+        });
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [isVisible, isEmbed, item.title]);
 
   const getCardEmbedUrl = (url: string) => {
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
@@ -110,6 +116,7 @@ function VideoCard({
             muted
             loop
             playsInline
+            autoPlay
             className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none"
           />
         ) : item.thumbnail ? (
