@@ -88,8 +88,8 @@ async function main() {
 
   // 6. Seed Settings
   const settings = [
-    { key: 'whatsapp_number', value: '+91 00000 00000' },
-    { key: 'contact_email', value: 'hello@casseti.co' },
+    { key: 'whatsapp_number', value: '+91 6200539091' },
+    { key: 'contact_email', value: 'connectcasseti@gmail.com' },
     { key: 'instagram_url', value: 'https://instagram.com' },
     { key: 'instagram_username', value: '@casseti.agency' },
     { key: 'linkedin_url', value: 'https://linkedin.com/company/casseti' },

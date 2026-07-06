@@ -1,10 +1,10 @@
 'use client';
 
 export default function ContactForm({
-  email = 'hello@casseti.co',
+  email = 'connectcasseti@gmail.com',
   instagramUrl = 'https://instagram.com',
   linkedinUrl = 'https://linkedin.com/company/casseti',
-  whatsappNumber = '+91 00000 00000',
+  whatsappNumber = '+91 6200539091',
 }: {
   email?: string;
   instagramUrl?: string;

@@ -36,8 +36,8 @@ export default async function AdminDashboard() {
   });
   const dbSettings = await prisma.setting.findMany();
   const settingsMap = new Map(dbSettings.map((s) => [s.key, s.value]));
-  const whatsappNumber = settingsMap.get('whatsapp_number') || '+91 00000 00000';
-  const contactEmail = settingsMap.get('contact_email') || 'hello@casseti.co';
+  const whatsappNumber = settingsMap.get('whatsapp_number') || '+91 6200539091';
+  const contactEmail = settingsMap.get('contact_email') || 'connectcasseti@gmail.com';
   const instagramUrl = settingsMap.get('instagram_url') || 'https://instagram.com';
   const instagramUsername = settingsMap.get('instagram_username') || '@casseti.agency';
   const linkedinUrl = settingsMap.get('linkedin_url') || 'https://linkedin.com/company/casseti';

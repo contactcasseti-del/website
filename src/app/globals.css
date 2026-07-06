@@ -73,7 +73,7 @@ body {
   height: 520px;
   top: -120px;
   right: -120px;
-  background: radial-gradient(circle, rgba(255, 106, 43, 0.3), transparent 70%);
+  background: radial-gradient(circle, rgba(230, 30, 42, 0.25), transparent 70%);
 }
 
 .glow-b {
@@ -81,7 +81,7 @@ body {
   height: 460px;
   top: 40%;
   left: -160px;
-  background: radial-gradient(circle, rgba(242, 169, 59, 0.2), transparent 70%);
+  background: radial-gradient(circle, rgba(230, 30, 42, 0.16), transparent 70%);
 }
 
 .glow-c {
@@ -89,8 +89,32 @@ body {
   height: 480px;
   bottom: -160px;
   right: 10%;
-  background: radial-gradient(circle, rgba(242, 169, 59, 0.16), transparent 70%);
+  background: radial-gradient(circle, rgba(230, 30, 42, 0.18), transparent 70%);
 }
+
+/* Batman HUD Watermark SVG */
+.batman-signal {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 480px;
+  height: 240px;
+  opacity: 0.05;
+  pointer-events: none;
+  filter: blur(1px);
+  z-index: 0;
+  color: #E61E2A;
+}
+
+@media (min-width: 768px) {
+  .batman-signal {
+    width: 680px;
+    height: 340px;
+    top: 10%;
+  }
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .glow {

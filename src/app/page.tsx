@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import VideoPortfolio from '@/components/VideoPortfolio';
 import GraphicPortfolio from '@/components/GraphicPortfolio';
 import ContactForm from '@/components/ContactForm';
+import ScrollRedHeading from '@/components/ScrollRedHeading';
 
 export const revalidate = 0; // Fresh database content on every request
 
@@ -19,9 +20,9 @@ export default async function LandingPage() {
   const deliveryStat = stats.find((s) => s.label.toLowerCase().includes('delivery'))?.value || 'On-Time';
 
   const settingsMap = new Map(dbSettings.map((s) => [s.key, s.value]));
-  const whatsappNumber = settingsMap.get('whatsapp_number') || '+91 00000 00000';
+  const whatsappNumber = settingsMap.get('whatsapp_number') || '+91 6200539091';
   const whatsappClean = whatsappNumber.replace(/[^0-9]/g, '');
-  const contactEmail = settingsMap.get('contact_email') || 'hello@casseti.co';
+  const contactEmail = settingsMap.get('contact_email') || 'connectcasseti@gmail.com';
   const instagramUrl = settingsMap.get('instagram_url') || 'https://instagram.com';
   const instagramUsername = settingsMap.get('instagram_username') || '@casseti.agency';
   const linkedinUrl = settingsMap.get('linkedin_url') || 'https://linkedin.com/company/casseti';
@@ -38,8 +39,16 @@ export default async function LandingPage() {
 
       <main className="relative z-10">
         {/* HERO SECTION */}
-        <section id="home" className="pt-40 pb-24 px-4 md:px-8">
-          <div className="max-w-4xl mx-auto text-center flex flex-col items-center justify-center">
+        <section id="home" className="pt-40 pb-24 px-4 md:px-8 relative overflow-hidden">
+          {/* Faint Glowing Bat-Signal HUD Background Watermark */}
+          <svg className="batman-signal" viewBox="0 0 512 256" xmlns="http://www.w3.org/2000/svg">
+            <path
+              fill="currentColor"
+              d="M256,16 C272,32 304,80 320,96 C336,112 368,128 384,128 C416,128 432,96 464,80 C480,72 496,80 504,88 C512,96 512,112 504,120 C480,144 440,168 400,176 C352,184 320,168 288,144 C272,132 264,120 256,120 C248,120 240,132 224,144 C192,168 160,184 112,176 C72,168 32,144 8,120 C0,112 0,96 8,88 C16,80 32,72 48,80 C80,96 96,128 128,128 C144,128 176,112 192,96 C208,80 240,32 256,16 Z"
+            />
+          </svg>
+
+          <div className="max-w-4xl mx-auto text-center flex flex-col items-center justify-center relative z-10">
             <div className="reveal in flex flex-col items-center">
               <div className="inline-flex items-center gap-2 glass rounded-full pl-3 pr-4 py-1.5 mb-6">
                 <span className="badge-dot"></span>
@@ -102,7 +111,7 @@ export default async function LandingPage() {
         <section id="services" className="section py-24 px-4 md:px-8">
           <div className="max-w-6xl mx-auto">
             <p className="eyebrow mb-3 reveal in">00 — What We Do</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-4 reveal in">One Agency. Every Piece of Your Content.</h2>
+            <ScrollRedHeading text="One Agency. Every Piece of Your Content." className="font-display text-4xl md:text-5xl mb-4 reveal in" />
             <p className="text-inkdim max-w-xl mb-14 reveal in">
               From the first cut to the caption to the strategy behind the post — we handle the full pipeline so your page never misses a beat.
             </p>
@@ -154,7 +163,7 @@ export default async function LandingPage() {
         <section id="editing" className="section py-24 px-4 md:px-8">
           <div className="max-w-6xl mx-auto">
             <p className="eyebrow mb-3 reveal in">01 — Editing</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-4 reveal in">Cut For The Feed. Built For The Big Screen.</h2>
+            <ScrollRedHeading text="Cut For The Feed. Built For The Big Screen." className="font-display text-4xl md:text-5xl mb-4 reveal in" />
             <p className="text-inkdim max-w-xl mb-14 reveal in">
               Two formats, one standard: fast-paced vertical edits for Reels and Shorts, and slower, long format cuts for brand films and ads. Click to watch the showreel clips.
             </p>
@@ -169,7 +178,7 @@ export default async function LandingPage() {
         <section id="design" className="section py-24 px-4 md:px-8">
           <div className="max-w-6xl mx-auto">
             <p className="eyebrow mb-3 reveal in">02 — Graphic Design</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-4 reveal in">Visuals That Match The Brand, Every Time</h2>
+            <ScrollRedHeading text="Visuals That Match The Brand, Every Time" className="font-display text-4xl md:text-5xl mb-4 reveal in" />
             <p className="text-inkdim max-w-xl mb-14 reveal in">
               From single feed posts and brand covers to full carousel slides and logo concepts — click to inspect details.
             </p>
@@ -184,7 +193,7 @@ export default async function LandingPage() {
         <section id="tools" className="section py-20 px-4 md:px-8">
           <div className="max-w-6xl mx-auto">
             <p className="eyebrow mb-3 reveal in">03 — Toolkit</p>
-            <h2 className="font-display text-3xl md:text-4xl mb-12 reveal in">Built With The Industry Standard</h2>
+            <ScrollRedHeading text="Built With The Industry Standard" className="font-display text-3xl md:text-4xl mb-12 reveal in" />
 
             <div className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-6">
               {[
@@ -215,7 +224,7 @@ export default async function LandingPage() {
           <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
             <div className="reveal in">
               <p className="eyebrow mb-3">04 — Script Writing</p>
-              <h2 className="font-display text-4xl md:text-5xl mb-6">The Words Before The Cut</h2>
+              <ScrollRedHeading text="The Words Before The Cut" className="font-display text-4xl md:text-5xl mb-6" />
               <p className="text-inkdim leading-relaxed mb-6">
                 Our script archive lives inside our clients' private content calendars, so there's no public portfolio to show here yet.
                 What we can tell you: we write hooks that earn the first three seconds, structure that keeps watch-time high,
@@ -268,7 +277,7 @@ export default async function LandingPage() {
         <section id="work" className="section py-24 px-4 md:px-8">
           <div className="max-w-6xl mx-auto">
             <p className="eyebrow mb-3 reveal in">05 — Past Work</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-14 reveal in">Growing @Officer_Barza</h2>
+            <ScrollRedHeading text="Growing @Officer_Barza" className="font-display text-4xl md:text-5xl mb-14 reveal in" />
 
             <div className="glass rounded-3xl p-6 md:p-10 grid lg:grid-cols-2 gap-10 items-center tilt-card">
               <div className="reveal in">
@@ -330,7 +339,7 @@ export default async function LandingPage() {
         <section id="reviews" className="section py-24 px-4 md:px-8">
           <div className="max-w-6xl mx-auto">
             <p className="eyebrow mb-3 reveal in">06 — Client Reviews</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-14 reveal in">What Clients Say</h2>
+            <ScrollRedHeading text="What Clients Say" className="font-display text-4xl md:text-5xl mb-14 reveal in" />
 
             <div className="grid md:grid-cols-3 gap-5">
               {reviews.map((review, idx) => (
