@@ -11,16 +11,16 @@ type VideoItem = {
   category: string | null;
 };
 
-// Transform Cloudinary video URLs to serve optimized low-bitrate preview versions
+// Transform Cloudinary video URLs to serve optimized preview versions
 function getOptimizedVideoUrl(url: string, type: string): string {
   if (url.includes('res.cloudinary.com') && url.includes('/video/upload/')) {
-    // 9:16 portrait videos: cap HEIGHT to 720px → output is ~405×720 (small)
-    // 16:9 landscape videos: cap WIDTH to 720px → output is ~720×405 (small)
-    // Without this, w_720 on a 9:16 video = 720×1280 (3× bigger = 3× slower!)
+    // 9:16 portrait: cap HEIGHT to 720px → ~405×720
+    // 16:9 landscape: cap WIDTH to 720px → ~720×405
+    // q_auto = Cloudinary picks good quality automatically (better than q_auto:low)
     const sizeCap = type === 'VIDEO_9_16' ? 'h_720' : 'w_720';
     return url.replace(
       '/video/upload/',
-      `/video/upload/f_auto,q_auto:low,vc_auto,${sizeCap}/`
+      `/video/upload/f_auto,q_auto,vc_auto,${sizeCap}/`
     );
   }
   return url;
