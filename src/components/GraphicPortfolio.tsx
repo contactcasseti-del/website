@@ -15,12 +15,12 @@ export default function GraphicPortfolio({ items }: { items: GraphicItem[] }) {
 
   return (
     <div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="columns-2 md:columns-3 gap-4 space-y-4">
         {items.map((item, idx) => (
           <button
             key={item.id}
             onClick={() => setActiveGraphic(item)}
-            className="frame aspect-square w-full text-left cursor-pointer group focus:outline-none overflow-hidden relative"
+            className="frame break-inside-avoid w-full text-left cursor-pointer group focus:outline-none overflow-hidden relative block mb-4"
             style={{ transitionDelay: `${idx * 0.05}s` }}
           >
             <span className="corner tl"></span>
@@ -28,13 +28,13 @@ export default function GraphicPortfolio({ items }: { items: GraphicItem[] }) {
             <span className="corner bl"></span>
             <span className="corner br"></span>
 
-            {/* Real image from Cloudinary / URL */}
-            <div className="w-full h-full transform group-hover:scale-105 transition-transform duration-500">
+            {/* Real image — natural aspect ratio */}
+            <div className="w-full transform group-hover:scale-105 transition-transform duration-500">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.url}
                 alt={item.title}
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-cover block"
                 loading="lazy"
               />
             </div>

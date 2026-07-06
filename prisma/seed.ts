@@ -74,6 +74,7 @@ async function main() {
     // 16:9 Landscape Videos
     { type: 'VIDEO_16_9', title: 'Documentary Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783283145/lv_0_20241003115246_tzxzkv.mp4', category: 'Cinematic' },
     { type: 'VIDEO_16_9', title: 'Long Form Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783281945/lv_0_20240724151606_uiuykt.mp4', category: 'Cinematic' },
+    { type: 'VIDEO_16_9', title: 'Anime Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783329642/VID_20240812235325_1_vogirp.mp4', category: 'Cinematic' },
     // Graphic Design Items
     { type: 'GRAPHIC', title: 'Movie Poster', url: 'https://res.cloudinary.com/a5qhiejq/image/upload/v1783326360/Picsart_24-07-24_00-57-22-467_skis7g.jpg', category: 'Poster' },
     { type: 'GRAPHIC', title: 'YT Thumbnail', url: 'https://res.cloudinary.com/a5qhiejq/image/upload/v1783328836/IMG-20240722-WA0009_doa2rz.jpg', category: 'Thumbnail' },

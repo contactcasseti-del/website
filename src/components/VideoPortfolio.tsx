@@ -42,7 +42,7 @@ function VideoCard({
           }
         });
       },
-      { threshold: 0.2 } // Start loading when 20% of the card is visible for smoother scrolling
+      { threshold: 0, rootMargin: '400px 0px' } // Preload 400px before card enters viewport
     );
 
     const currentRef = containerRef.current;
@@ -117,6 +117,7 @@ function VideoCard({
             loop
             playsInline
             autoPlay
+            preload="auto"
             className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none"
           />
         ) : item.thumbnail ? (
