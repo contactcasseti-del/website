@@ -23,9 +23,8 @@ export default function ScrollRedHeading({
         setIsInView(entry.isIntersecting);
       },
       {
-        // Triggers color change when at least 30% of heading is in the middle part of viewport
-        threshold: 0.3,
-        rootMargin: '-10% 0px -10% 0px' 
+        threshold: 0.1, // Trigger earlier so the animation feels responsive
+        rootMargin: '-5% 0px -5% 0px' 
       }
     );
 
@@ -35,17 +34,29 @@ export default function ScrollRedHeading({
     };
   }, []);
 
+  // Soft gradient: half red, half text-color with a wide blur area in between
+  const gradient = isSubheading
+    ? 'linear-gradient(270deg, #E61E2A 30%, #9C968D 70%)'
+    : 'linear-gradient(270deg, #E61E2A 30%, #F4F1EC 70%)';
+
   const style = {
-    color: isInView 
-      ? '#E61E2A' // Red when scrolled into view
-      : (isSubheading ? '#9C968D' : '#F4F1EC'), // White/gray when out of view
-    transition: 'color 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
+    background: gradient,
+    backgroundSize: '220% 100%',
+    // If not in view: background position is shifted right (showing white/gray)
+    // If in view: background position is shifted left (showing red flowing from right to left)
+    backgroundPosition: isInView ? '0% 0' : '100% 0',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
+    color: 'transparent',
+    // Smooth, slow right-to-left wash animation
+    transition: 'background-position 1.4s cubic-bezier(0.25, 1, 0.5, 1)',
     display: 'inline-block',
   };
 
   if (isSubheading) {
     return (
-      <div ref={elementRef} className="inline-block">
+      <div ref={elementRef} className="inline-block max-w-full">
         <p className={`${className}`} style={style}>
           {text}
         </p>
@@ -54,7 +65,7 @@ export default function ScrollRedHeading({
   }
 
   return (
-    <div ref={elementRef} className="inline-block">
+    <div ref={elementRef} className="inline-block max-w-full">
       <h2 className={`${className}`} style={style}>
         {text}
       </h2>
