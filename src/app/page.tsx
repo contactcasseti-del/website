@@ -277,12 +277,12 @@ export default async function LandingPage() {
         <section id="work" className="section py-24 px-4 md:px-8">
           <div className="max-w-6xl mx-auto">
             <p className="eyebrow mb-3 reveal in">05 — Past Work</p>
-            <ScrollRedHeading text="Growing @Officer_Barza" className="font-display text-4xl md:text-5xl mb-14 reveal in" />
+            <ScrollRedHeading text="Growing @Officer_Barca" className="font-display text-4xl md:text-5xl mb-14 reveal in" />
 
             <div className="glass rounded-3xl p-6 md:p-10 grid lg:grid-cols-2 gap-10 items-center tilt-card">
               <div className="reveal in">
                 <p className="text-inkdim leading-relaxed mb-6">
-                  CaSSeTI took over full content operations for the Officer Barza page — editing, posting cadence, and growth
+                  CaSSeTI took over full content operations for the Officer Barca page — editing, posting cadence, and growth
                   strategy — and scaled it into one of its niche's most-watched accounts. Every video was cut, captioned,
                   and scheduled by our team from start to finish.
                 </p>
@@ -309,7 +309,7 @@ export default async function LandingPage() {
                       OB
                     </div>
                     <div>
-                      <p className="font-semibold text-sm">@officer_barza</p>
+                      <p className="font-semibold text-sm">@officer_barca</p>
                       <p className="text-xs text-inkdim">Managed by CaSSeTI</p>
                     </div>
                   </div>
