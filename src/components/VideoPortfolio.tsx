@@ -159,6 +159,16 @@ function VideoCard({
 export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
   const [activeVideo, setActiveVideo] = useState<VideoItem | null>(null);
   const [isMuted, setIsMuted] = useState(true);
+  const [isBuffering, setIsBuffering] = useState(true);
+
+  // Higher quality for modal (q_auto = good quality, w_1080/h_1080)
+  function getModalVideoUrl(url: string, type: string): string {
+    if (url.includes('res.cloudinary.com') && url.includes('/video/upload/')) {
+      const sizeCap = type === 'VIDEO_9_16' ? 'h_1080' : 'w_1080';
+      return url.replace('/video/upload/', `/video/upload/f_auto,q_auto,vc_auto,${sizeCap}/`);
+    }
+    return url;
+  }
 
   const verticalVideos = items.filter((item) => item.type === 'VIDEO_9_16');
   const cinematicVideos = items.filter((item) => item.type === 'VIDEO_16_9');
@@ -201,10 +211,12 @@ export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
 
   const handleOpenVideo = (item: VideoItem) => {
     setIsMuted(true);
+    setIsBuffering(true);
     setActiveVideo(item);
   };
 
   const { embedUrl, isEmbed } = getVideoEmbedUrl(activeVideo?.url || '', isMuted);
+  const modalVideoUrl = activeVideo ? getModalVideoUrl(activeVideo.url, activeVideo.type) : '';
 
   return (
     <div>
@@ -287,13 +299,31 @@ export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
                 />
               ) : (
                 <video
-                  src={embedUrl}
+                  key={activeVideo?.id}
+                  src={modalVideoUrl}
                   className="w-full h-full object-contain"
                   controls
                   autoPlay
+                  preload="auto"
                   muted={isMuted}
                   playsInline
+                  onWaiting={() => setIsBuffering(true)}
+                  onPlaying={() => setIsBuffering(false)}
+                  onCanPlay={() => setIsBuffering(false)}
                 />
+              )}
+
+              {/* Loading spinner shown while buffering */}
+              {!isEmbed && isBuffering && (
+                <div className="absolute inset-0 flex items-center justify-center bg-void/60 z-10 pointer-events-none">
+                  <div className="flex flex-col items-center gap-3">
+                    <svg className="animate-spin w-10 h-10 text-amber" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                    </svg>
+                    <span className="text-[10px] font-mono text-inkdim tracking-widest uppercase">Loading...</span>
+                  </div>
+                </div>
               )}
 
               {/* Sound confirmation control overlay */}
