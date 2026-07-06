@@ -18,6 +18,8 @@ export const revalidate = 0;
 export default async function AdminDashboard() {
   // Verify administrator session
   const session = await requireSession();
+  const isVercel = !!process.env.VERCEL;
+
 
   // Fetch dashboard data
   const inquiries = await prisma.inquiry.findMany({
@@ -232,8 +234,21 @@ export default async function AdminDashboard() {
 
               <div>
                 <label className="text-[9px] uppercase font-mono text-inkdim block mb-0.5">Upload File</label>
-                <input type="file" name="file" accept="video/mp4,image/jpeg,image/png" className="w-full bg-voidsoft border border-white/8 rounded-lg px-3 py-1.5 text-ink text-xs focus:outline-none focus:border-amber" />
-                <span className="text-[9px] text-inkdim mt-1 block">Upload mp4 video or image file.</span>
+                {isVercel ? (
+                  <div className="w-full bg-voidsoft/50 border border-dashed border-white/10 rounded-lg px-3 py-3 text-center">
+                    <p className="text-[10px] text-amber">
+                      <i className="fa-solid fa-cloud-arrow-up mr-1"></i> File upload disabled in Vercel production
+                    </p>
+                    <p className="text-[9px] text-inkdim mt-0.5">
+                      Please use the "Manual URL" field below to link a video or image.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <input type="file" name="file" accept="video/mp4,image/jpeg,image/png" className="w-full bg-voidsoft border border-white/8 rounded-lg px-3 py-1.5 text-ink text-xs focus:outline-none focus:border-amber" />
+                    <span className="text-[9px] text-inkdim mt-1 block">Upload mp4 video or image file.</span>
+                  </>
+                )}
               </div>
 
               <div className="relative flex py-1 items-center">
@@ -254,7 +269,18 @@ export default async function AdminDashboard() {
                 <div className="space-y-3">
                   <div>
                     <label className="text-[9px] uppercase font-mono text-inkdim block mb-0.5">Upload Thumbnail Image</label>
-                    <input type="file" name="thumbnailFile" accept="image/jpeg,image/png" className="w-full bg-voidsoft border border-white/8 rounded-lg px-3 py-1.5 text-ink text-xs focus:outline-none focus:border-amber" />
+                    {isVercel ? (
+                      <div className="w-full bg-voidsoft/50 border border-dashed border-white/10 rounded-lg px-3 py-3 text-center">
+                        <p className="text-[10px] text-amber">
+                          <i className="fa-solid fa-cloud-arrow-up mr-1"></i> Thumbnail upload disabled on Vercel
+                        </p>
+                        <p className="text-[9px] text-inkdim mt-0.5">
+                          Please use the "Thumbnail Image URL" field below to link an image.
+                        </p>
+                      </div>
+                    ) : (
+                      <input type="file" name="thumbnailFile" accept="image/jpeg,image/png" className="w-full bg-voidsoft border border-white/8 rounded-lg px-3 py-1.5 text-ink text-xs focus:outline-none focus:border-amber" />
+                    )}
                   </div>
                   <div>
                     <label className="text-[9px] uppercase font-mono text-inkdim block mb-0.5">Thumbnail Image URL</label>
@@ -262,6 +288,7 @@ export default async function AdminDashboard() {
                   </div>
                 </div>
               </div>
+
 
               <button type="submit" className="btn-solid w-full justify-center !py-2 text-xs font-bold mt-2">
                 Add Portfolio Item

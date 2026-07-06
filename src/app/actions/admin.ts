@@ -76,6 +76,9 @@ export async function uploadPortfolioItem(formData: FormData) {
 
   // Process video/graphic file upload if selected and has bytes
   if (file && file.size > 0) {
+    if (process.env.VERCEL) {
+      throw new Error('Local file upload is not supported in the serverless Vercel environment. Please provide a Manual URL instead.');
+    }
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -97,6 +100,9 @@ export async function uploadPortfolioItem(formData: FormData) {
 
   // Process thumbnail file upload if selected and has bytes
   if (thumbnailFile && thumbnailFile.size > 0) {
+    if (process.env.VERCEL) {
+      throw new Error('Local file upload is not supported in the serverless Vercel environment. Please provide a Manual URL instead.');
+    }
     const bytes = await thumbnailFile.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -111,6 +117,7 @@ export async function uploadPortfolioItem(formData: FormData) {
   } else if (thumbnailUrl) {
     finalThumbnailUrl = thumbnailUrl;
   }
+
 
   await prisma.portfolioItem.create({
     data: {
