@@ -12,7 +12,7 @@ export default function ContactForm({
   whatsappNumber?: string;
 }) {
   return (
-    <div className="max-w-5xl mx-auto glass rounded-3xl p-8 md:p-16 text-center reveal in">
+    <div className="max-w-5xl mx-auto glass rounded-3xl p-8 md:p-16 text-center reveal in tilt-card">
       <p className="eyebrow mb-3">07 — Get In Touch</p>
       <h2 className="font-display text-4xl md:text-6xl mb-5">Let's Build Your Next 500K</h2>
       <p className="text-inkdim max-w-lg mx-auto mb-9">

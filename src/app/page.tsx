@@ -47,7 +47,7 @@ export default async function LandingPage() {
               </div>
 
               <p className="eyebrow mb-3">Creative Production Agency</p>
-              <h1 className="font-display text-[4.2rem] leading-[0.92] sm:text-[5.5rem] md:text-[6.5rem] mb-6">
+              <h1 className="font-display text-[4.2rem] leading-[0.92] sm:text-[5.5rem] md:text-[6.5rem] mb-6 hero-3d-text">
                 CaSSe<span className="text-transparent bg-clip-text bg-gradient-to-r from-amber to-ember">TI</span>
               </h1>
               <p className="text-inkdim text-base md:text-lg max-w-xl mb-8 leading-relaxed">
@@ -81,15 +81,15 @@ export default async function LandingPage() {
 
           {/* Quick stats grid */}
           <div className="max-w-6xl mx-auto mt-20 grid grid-cols-3 gap-4 md:gap-8 reveal in">
-            <div className="glass rounded-2xl p-5 md:p-7 text-center">
+            <div className="glass rounded-2xl p-5 md:p-7 text-center tilt-card">
               <p className="font-display text-3xl md:text-4xl text-amber">{followersStat}</p>
               <p className="text-xs md:text-sm text-inkdim mt-1">Followers grown</p>
             </div>
-            <div className="glass rounded-2xl p-5 md:p-7 text-center">
+            <div className="glass rounded-2xl p-5 md:p-7 text-center tilt-card">
               <p className="font-display text-3xl md:text-4xl text-amber">{reachStat}</p>
               <p className="text-xs md:text-sm text-inkdim mt-1">Accounts reached</p>
             </div>
-            <div className="glass rounded-2xl p-5 md:p-7 text-center">
+            <div className="glass rounded-2xl p-5 md:p-7 text-center tilt-card">
               <p className="font-display text-3xl md:text-4xl text-amber">{deliveryStat}</p>
               <p className="text-xs md:text-sm text-inkdim mt-1">Every delivery</p>
             </div>
@@ -108,7 +108,7 @@ export default async function LandingPage() {
             </p>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              <div className="glass rounded-2xl p-6 reveal in">
+              <div className="glass rounded-2xl p-6 reveal in tilt-card">
                 <div className="w-12 h-12 rounded-xl bg-amber/15 text-amber flex items-center justify-center mb-5">
                   <i className="fa-solid fa-film"></i>
                 </div>
@@ -117,7 +117,7 @@ export default async function LandingPage() {
                   Reels, shorts, and cinematic edits built to stop the scroll and hold it.
                 </p>
               </div>
-              <div className="glass rounded-2xl p-6 reveal in" style={{ transitionDelay: '.05s' }}>
+              <div className="glass rounded-2xl p-6 reveal in tilt-card" style={{ transitionDelay: '.05s' }}>
                 <div className="w-12 h-12 rounded-xl bg-amber/15 text-amber flex items-center justify-center mb-5">
                   <i className="fa-solid fa-palette"></i>
                 </div>
@@ -126,7 +126,7 @@ export default async function LandingPage() {
                   Feed posts, covers, and brand visuals with one consistent, premium look.
                 </p>
               </div>
-              <div className="glass rounded-2xl p-6 reveal in" style={{ transitionDelay: '.1s' }}>
+              <div className="glass rounded-2xl p-6 reveal in tilt-card" style={{ transitionDelay: '.1s' }}>
                 <div className="w-12 h-12 rounded-xl bg-amber/15 text-amber flex items-center justify-center mb-5">
                   <i className="fa-solid fa-pen-nib"></i>
                 </div>
@@ -135,7 +135,7 @@ export default async function LandingPage() {
                   Hooks, structure, and copy written to be watched, not skipped.
                 </p>
               </div>
-              <div className="glass rounded-2xl p-6 reveal in" style={{ transitionDelay: '.15s' }}>
+              <div className="glass rounded-2xl p-6 reveal in tilt-card" style={{ transitionDelay: '.15s' }}>
                 <div className="w-12 h-12 rounded-xl bg-amber/15 text-amber flex items-center justify-center mb-5">
                   <i className="fa-solid fa-chart-line"></i>
                 </div>
@@ -240,7 +240,7 @@ export default async function LandingPage() {
               </p>
             </div>
 
-            <div className="glass rounded-2xl p-6 md:p-8 font-mono text-xs md:text-sm leading-relaxed reveal in" style={{ transitionDelay: '.1s' }}>
+            <div className="glass rounded-2xl p-6 md:p-8 font-mono text-xs md:text-sm leading-relaxed reveal in tilt-card" style={{ transitionDelay: '.1s' }}>
               <p className="text-inkdim mb-3">// sample structure we follow</p>
               <p className="text-amber mb-1">
                 HOOK <span className="text-inkdim">(0–3s)</span>
@@ -270,7 +270,7 @@ export default async function LandingPage() {
             <p className="eyebrow mb-3 reveal in">05 — Past Work</p>
             <h2 className="font-display text-4xl md:text-5xl mb-14 reveal in">Growing @Officer_Barza</h2>
 
-            <div className="glass rounded-3xl p-6 md:p-10 grid lg:grid-cols-2 gap-10 items-center">
+            <div className="glass rounded-3xl p-6 md:p-10 grid lg:grid-cols-2 gap-10 items-center tilt-card">
               <div className="reveal in">
                 <p className="text-inkdim leading-relaxed mb-6">
                   CaSSeTI took over full content operations for the Officer Barza page — editing, posting cadence, and growth
@@ -336,7 +336,7 @@ export default async function LandingPage() {
               {reviews.map((review, idx) => (
                 <div
                   key={review.id}
-                  className="glass rounded-2xl p-6 reveal in"
+                  className="glass rounded-2xl p-6 reveal in tilt-card"
                   style={{ transitionDelay: `${idx * 0.05}s` }}
                 >
                   <div className="flex gap-1 mb-4 star text-sm">
