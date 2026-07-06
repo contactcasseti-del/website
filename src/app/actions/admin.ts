@@ -6,6 +6,8 @@ import { revalidatePath } from 'next/cache';
 import { writeFileSync, mkdirSync, unlinkSync, existsSync } from 'fs';
 import { join } from 'path';
 
+import { put, del } from '@vercel/blob';
+
 export async function deleteInquiry(id: string) {
   await requireSession();
   await prisma.inquiry.delete({ where: { id } });
@@ -77,19 +79,25 @@ export async function uploadPortfolioItem(formData: FormData) {
   // Process video/graphic file upload if selected and has bytes
   if (file && file.size > 0) {
     if (process.env.VERCEL) {
-      throw new Error('Local file upload is not supported in the serverless Vercel environment. Please provide a Manual URL instead.');
+      if (!process.env.BLOB_READ_WRITE_TOKEN) {
+        throw new Error('Vercel Blob storage is not connected to this project. Please create and connect a Blob database in your Vercel Project Settings under "Storage" to enable direct file uploads, or use the Manual URL instead.');
+      }
+      const safeFileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+      const blob = await put(safeFileName, file, { access: 'public' });
+      finalUrl = blob.url;
+    } else {
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      const uploadDir = join(process.cwd(), 'public', 'uploads');
+      mkdirSync(uploadDir, { recursive: true });
+
+      const safeFileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+      const filePath = join(uploadDir, safeFileName);
+      writeFileSync(filePath, new Uint8Array(buffer));
+      
+      finalUrl = `/uploads/${safeFileName}`;
     }
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const uploadDir = join(process.cwd(), 'public', 'uploads');
-    mkdirSync(uploadDir, { recursive: true });
-
-    const safeFileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
-    const filePath = join(uploadDir, safeFileName);
-    writeFileSync(filePath, new Uint8Array(buffer));
-    
-    finalUrl = `/uploads/${safeFileName}`;
   } else if (manualUrl) {
     finalUrl = manualUrl;
   } else {
@@ -101,19 +109,25 @@ export async function uploadPortfolioItem(formData: FormData) {
   // Process thumbnail file upload if selected and has bytes
   if (thumbnailFile && thumbnailFile.size > 0) {
     if (process.env.VERCEL) {
-      throw new Error('Local file upload is not supported in the serverless Vercel environment. Please provide a Manual URL instead.');
+      if (!process.env.BLOB_READ_WRITE_TOKEN) {
+        throw new Error('Vercel Blob storage is not connected to this project. Connect Blob storage in your Vercel Dashboard, or use the Thumbnail Image URL instead.');
+      }
+      const safeFileName = `thumb-${Date.now()}-${thumbnailFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+      const blob = await put(safeFileName, thumbnailFile, { access: 'public' });
+      finalThumbnailUrl = blob.url;
+    } else {
+      const bytes = await thumbnailFile.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      const uploadDir = join(process.cwd(), 'public', 'uploads');
+      mkdirSync(uploadDir, { recursive: true });
+
+      const safeFileName = `thumb-${Date.now()}-${thumbnailFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+      const filePath = join(uploadDir, safeFileName);
+      writeFileSync(filePath, new Uint8Array(buffer));
+      
+      finalThumbnailUrl = `/uploads/${safeFileName}`;
     }
-    const bytes = await thumbnailFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const uploadDir = join(process.cwd(), 'public', 'uploads');
-    mkdirSync(uploadDir, { recursive: true });
-
-    const safeFileName = `thumb-${Date.now()}-${thumbnailFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
-    const filePath = join(uploadDir, safeFileName);
-    writeFileSync(filePath, new Uint8Array(buffer));
-    
-    finalThumbnailUrl = `/uploads/${safeFileName}`;
   } else if (thumbnailUrl) {
     finalThumbnailUrl = thumbnailUrl;
   }
@@ -142,8 +156,14 @@ export async function deletePortfolioItem(id: string) {
 
   if (!item) return;
 
-  // Delete local video/graphic file
-  if (item.url.startsWith('/uploads/')) {
+  // Delete from Vercel Blob if stored in the cloud
+  if (item.url.startsWith('https://') && item.url.includes('.public.blob.vercel-storage.com')) {
+    try {
+      await del(item.url);
+    } catch (err) {
+      console.error('Failed to delete video blob:', err);
+    }
+  } else if (item.url.startsWith('/uploads/')) {
     const filePath = join(process.cwd(), 'public', item.url);
     try {
       if (existsSync(filePath)) {
@@ -154,15 +174,23 @@ export async function deletePortfolioItem(id: string) {
     }
   }
 
-  // Delete local thumbnail file
-  if (item.thumbnail && item.thumbnail.startsWith('/uploads/')) {
-    const thumbPath = join(process.cwd(), 'public', item.thumbnail);
-    try {
-      if (existsSync(thumbPath)) {
-        unlinkSync(thumbPath);
+  // Delete local/blob thumbnail file
+  if (item.thumbnail) {
+    if (item.thumbnail.startsWith('https://') && item.thumbnail.includes('.public.blob.vercel-storage.com')) {
+      try {
+        await del(item.thumbnail);
+      } catch (err) {
+        console.error('Failed to delete thumbnail blob:', err);
       }
-    } catch (err) {
-      console.error('Failed to delete physical thumbnail file:', err);
+    } else if (item.thumbnail.startsWith('/uploads/')) {
+      const thumbPath = join(process.cwd(), 'public', item.thumbnail);
+      try {
+        if (existsSync(thumbPath)) {
+          unlinkSync(thumbPath);
+        }
+      } catch (err) {
+        console.error('Failed to delete physical thumbnail file:', err);
+      }
     }
   }
 

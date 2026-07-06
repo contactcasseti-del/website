@@ -12,6 +12,7 @@ import {
   deletePortfolioItem,
   updateSettings,
 } from '@/app/actions/admin';
+import DragDropUpload from '@/components/DragDropUpload';
 
 export const revalidate = 0;
 
@@ -19,6 +20,7 @@ export default async function AdminDashboard() {
   // Verify administrator session
   const session = await requireSession();
   const isVercel = !!process.env.VERCEL;
+  const isBlobConnected = !!process.env.BLOB_READ_WRITE_TOKEN;
 
 
   // Fetch dashboard data
@@ -233,21 +235,22 @@ export default async function AdminDashboard() {
               </div>
 
               <div>
-                <label className="text-[9px] uppercase font-mono text-inkdim block mb-0.5">Upload File</label>
-                {isVercel ? (
-                  <div className="w-full bg-voidsoft/50 border border-dashed border-white/10 rounded-lg px-3 py-3 text-center">
-                    <p className="text-[10px] text-amber">
-                      <i className="fa-solid fa-cloud-arrow-up mr-1"></i> File upload disabled in Vercel production
+                {isVercel && !isBlobConnected ? (
+                  <div className="w-full bg-voidsoft/50 border border-dashed border-red-500/20 rounded-xl px-3 py-4 text-center">
+                    <p className="text-[10px] text-red-300 font-semibold mb-1">
+                      <i className="fa-solid fa-triangle-exclamation mr-1 text-red-400"></i> Cloud Storage Not Connected
                     </p>
-                    <p className="text-[9px] text-inkdim mt-0.5">
-                      Please use the "Manual URL" field below to link a video or image.
+                    <p className="text-[9px] text-inkdim leading-relaxed max-w-xs mx-auto">
+                      Direct upload requires Vercel Blob. In your Vercel Dashboard, click the **Storage** tab, create a **Blob** database, and connect it to this project.
                     </p>
                   </div>
                 ) : (
-                  <>
-                    <input type="file" name="file" accept="video/mp4,image/jpeg,image/png" className="w-full bg-voidsoft border border-white/8 rounded-lg px-3 py-1.5 text-ink text-xs focus:outline-none focus:border-amber" />
-                    <span className="text-[9px] text-inkdim mt-1 block">Upload mp4 video or image file.</span>
-                  </>
+                  <DragDropUpload
+                    name="file"
+                    accept="video/mp4,image/jpeg,image/png"
+                    label="Upload Portfolio File"
+                    helperText="Select or drop an MP4 video or image file."
+                  />
                 )}
               </div>
 
@@ -268,18 +271,13 @@ export default async function AdminDashboard() {
                 </span>
                 <div className="space-y-3">
                   <div>
-                    <label className="text-[9px] uppercase font-mono text-inkdim block mb-0.5">Upload Thumbnail Image</label>
-                    {isVercel ? (
-                      <div className="w-full bg-voidsoft/50 border border-dashed border-white/10 rounded-lg px-3 py-3 text-center">
-                        <p className="text-[10px] text-amber">
-                          <i className="fa-solid fa-cloud-arrow-up mr-1"></i> Thumbnail upload disabled on Vercel
-                        </p>
-                        <p className="text-[9px] text-inkdim mt-0.5">
-                          Please use the "Thumbnail Image URL" field below to link an image.
-                        </p>
-                      </div>
-                    ) : (
-                      <input type="file" name="thumbnailFile" accept="image/jpeg,image/png" className="w-full bg-voidsoft border border-white/8 rounded-lg px-3 py-1.5 text-ink text-xs focus:outline-none focus:border-amber" />
+                    {(!isVercel || isBlobConnected) && (
+                      <DragDropUpload
+                        name="thumbnailFile"
+                        accept="image/jpeg,image/png"
+                        label="Upload Thumbnail Image"
+                        helperText="Select or drop a thumbnail JPG or PNG."
+                      />
                     )}
                   </div>
                   <div>
