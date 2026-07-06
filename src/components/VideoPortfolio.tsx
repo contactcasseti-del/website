@@ -33,7 +33,7 @@ function VideoCard({
 }: {
   item: VideoItem;
   idx: number;
-  onClick: (item: VideoItem) => void;
+  onClick: (item: VideoItem, cachedUrl: string) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -97,7 +97,7 @@ function VideoCard({
   return (
     <div ref={containerRef} className="w-full">
       <button
-        onClick={() => onClick(item)}
+        onClick={() => onClick(item, optimizedUrl)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`frame w-full text-left cursor-pointer group focus:outline-none relative overflow-hidden ${
@@ -158,6 +158,7 @@ function VideoCard({
 
 export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
   const [activeVideo, setActiveVideo] = useState<VideoItem | null>(null);
+  const [activeVideoUrl, setActiveVideoUrl] = useState('');
   const [isMuted, setIsMuted] = useState(true);
   const [isBuffering, setIsBuffering] = useState(true);
 
@@ -209,14 +210,15 @@ export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
     };
   }
 
-  const handleOpenVideo = (item: VideoItem) => {
+  const handleOpenVideo = (item: VideoItem, cachedUrl: string) => {
     setIsMuted(true);
     setIsBuffering(true);
+    // Use the same URL the card already buffered — plays from browser cache instantly
+    setActiveVideoUrl(cachedUrl || item.url);
     setActiveVideo(item);
   };
 
-  const { embedUrl, isEmbed } = getVideoEmbedUrl(activeVideo?.url || '', isMuted);
-  const modalVideoUrl = activeVideo ? getModalVideoUrl(activeVideo.url, activeVideo.type) : '';
+  const { embedUrl, isEmbed } = getVideoEmbedUrl(activeVideo?.url || '', isMuted);;
 
   return (
     <div>
@@ -300,7 +302,7 @@ export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
               ) : (
                 <video
                   key={activeVideo?.id}
-                  src={modalVideoUrl}
+                  src={activeVideoUrl || embedUrl}
                   className="w-full h-full object-contain"
                   controls
                   autoPlay
