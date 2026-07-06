@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 export default function ScrollRedHeading({
   text,
@@ -11,64 +11,26 @@ export default function ScrollRedHeading({
   className?: string;
   isSubheading?: boolean;
 }) {
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const [progress, setProgress] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!headingRef.current) return;
-      const rect = headingRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      // Start color transition when element enters bottom of screen, finish when it leaves top
-      const elementHeight = rect.height;
-      const elementTop = rect.top;
-
-      // Map position to a value between -50% and 150% gradient position
-      // As element moves up (elementTop gets smaller), progress goes from 0 to 1
-      const totalRange = windowHeight + elementHeight;
-      const currentPos = windowHeight - elementTop;
-      const ratio = Math.max(0, Math.min(1, currentPos / totalRange));
-
-      // Ease the transition to make it feel natural
-      setProgress(ratio);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    // Run once on mount to set initial state
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Compute gradient background position based on scroll progress
-  // Left-to-right fill: we shift the color-stop of the linear-gradient
-  // When progress = 0: 100% white
-  // When progress = 1: 100% red
-  const percentage = progress * 130 - 15; // Range of gradient movement (-15% to 115%)
-
-  const gradientStyle = {
-    background: `linear-gradient(90deg, #E61E2A ${percentage}%, #F4F1EC ${percentage + 15}%)`,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    color: 'transparent',
-  };
-
-  const subHeadingStyle = {
-    background: `linear-gradient(90deg, #E61E2A ${percentage}%, #9C968D ${percentage + 15}%)`,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    color: 'transparent',
+  // Transition style for smooth hover growth and color fade
+  const style = {
+    color: isHovered 
+      ? '#E61E2A' // Red on hover
+      : (isSubheading ? '#9C968D' : '#F4F1EC'), // Normal text or subheading gray
+    transform: isHovered ? 'scale(1.03)' : 'scale(1)', // Grow slightly on hover
+    transformOrigin: 'left center',
+    transition: 'color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
+    display: 'inline-block',
   };
 
   if (isSubheading) {
     return (
       <p
-        ref={headingRef}
-        className={`transition-all duration-75 ease-out ${className}`}
-        style={subHeadingStyle}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`${className}`}
+        style={style}
       >
         {text}
       </p>
@@ -77,9 +39,10 @@ export default function ScrollRedHeading({
 
   return (
     <h2
-      ref={headingRef}
-      className={`transition-all duration-75 ease-out ${className}`}
-      style={gradientStyle}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`${className}`}
+      style={style}
     >
       {text}
     </h2>
