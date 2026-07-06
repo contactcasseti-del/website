@@ -21,12 +21,19 @@ function createPrismaClient() {
         try {
           if (fs.existsSync(bundledDbPath)) {
             fs.copyFileSync(bundledDbPath, tempDbPath);
-            console.log(`Successfully copied database to ${tempDbPath}`);
+            fs.chmodSync(tempDbPath, 0o666);
+            console.log(`Successfully copied database to ${tempDbPath} and set writable permissions`);
           } else {
             console.error(`Bundled database not found at ${bundledDbPath}`);
           }
         } catch (error) {
           console.error(`Failed to copy database to ${tempDbPath}:`, error);
+        }
+      } else {
+        try {
+          fs.chmodSync(tempDbPath, 0o666);
+        } catch (error) {
+          console.error(`Failed to adjust permissions on existing database at ${tempDbPath}:`, error);
         }
       }
       dbUrl = `file:${tempDbPath}`;
