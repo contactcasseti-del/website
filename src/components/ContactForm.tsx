@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, startTransition } from 'react';
+import { useActionState, startTransition, useState } from 'react';
 import { submitInquiry, InquiryState } from '@/app/actions/inquiry';
 
 const initialState: InquiryState = {};
@@ -17,6 +17,12 @@ export default function ContactForm({
   whatsappNumber?: string;
 }) {
   const [state, formAction, isPending] = useActionState(submitInquiry, initialState);
+  const [selectedServices, setSelectedServices] = useState<Record<string, boolean>>({
+    editing: false,
+    design: false,
+    scripts: false,
+    marketing: false,
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -67,23 +73,39 @@ export default function ContactForm({
               ].map((service) => (
                 <label
                   key={service.id}
-                  className="flex flex-col items-center justify-center p-4 rounded-xl border border-white/5 bg-white/2 cursor-pointer hover:border-amber/40 hover:bg-white/4 transition-all has-checked:border-amber has-checked:bg-amber/5 text-center group"
+                  className={`flex flex-col items-center justify-center p-4 rounded-xl border transition-all cursor-pointer text-center group ${
+                    selectedServices[service.id]
+                      ? 'border-amber bg-amber/5'
+                      : 'border-white/5 bg-white/2 hover:border-amber/40 hover:bg-white/4'
+                  }`}
                 >
                   <input
                     type="checkbox"
                     name={`service-${service.id}`}
-                    className="sr-only peer"
+                    className="sr-only"
+                    checked={selectedServices[service.id]}
+                    onChange={(e) => setSelectedServices(prev => ({
+                      ...prev,
+                      [service.id]: e.target.checked
+                    }))}
                   />
-                  <div className="w-10 h-10 rounded-lg bg-white/5 group-hover:bg-white/10 text-inkdim peer-checked:text-amber flex items-center justify-center mb-2 transition-colors">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-2 transition-colors ${
+                    selectedServices[service.id]
+                      ? 'bg-amber/10 text-amber'
+                      : 'bg-white/5 group-hover:bg-white/10 text-inkdim'
+                  }`}>
                     <i className={`fa-solid ${service.icon}`}></i>
                   </div>
-                  <span className="text-xs font-semibold text-inkdim peer-checked:text-ink">
+                  <span className={`text-xs font-semibold transition-colors ${
+                    selectedServices[service.id] ? 'text-ink' : 'text-inkdim'
+                  }`}>
                     {service.label}
                   </span>
                 </label>
               ))}
             </div>
           </div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

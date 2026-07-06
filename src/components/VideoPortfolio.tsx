@@ -216,7 +216,7 @@ export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
       <div>
         <div className="flex items-center justify-between mb-6 reveal in">
           <h3 className="font-semibold text-lg flex items-center gap-2">
-            <i className="fa-solid fa-clapperboard text-amber"></i> Cinematic Edits
+            <i className="fa-solid fa-clapperboard text-amber"></i> Long Format Videos
           </h3>
           <span className="font-mono text-xs text-inkdim border border-white/10 rounded-full px-3 py-1">
             16:9 · 21:9

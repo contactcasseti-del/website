@@ -39,8 +39,8 @@ export default async function LandingPage() {
       <main className="relative z-10">
         {/* HERO SECTION */}
         <section id="home" className="pt-40 pb-24 px-4 md:px-8">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
-            <div className="reveal in">
+          <div className="max-w-4xl mx-auto text-center flex flex-col items-center justify-center">
+            <div className="reveal in flex flex-col items-center">
               <div className="inline-flex items-center gap-2 glass rounded-full pl-3 pr-4 py-1.5 mb-6">
                 <span className="badge-dot"></span>
                 <span className="text-xs font-medium text-inkdim">Open for new projects</span>
@@ -50,12 +50,12 @@ export default async function LandingPage() {
               <h1 className="font-display text-[4.2rem] leading-[0.92] sm:text-[5.5rem] md:text-[6.5rem] mb-6">
                 CaSSe<span className="text-transparent bg-clip-text bg-gradient-to-r from-amber to-ember">TI</span>
               </h1>
-              <p className="text-inkdim text-base md:text-lg max-w-md mb-8 leading-relaxed">
+              <p className="text-inkdim text-base md:text-lg max-w-xl mb-8 leading-relaxed">
                 We cut the reels, design the visuals, write the words, and run the pages —
                 turning attention into an audience that sticks around.
               </p>
 
-              <div className="flex flex-wrap gap-3 mb-10">
+              <div className="flex flex-wrap justify-center gap-3 mb-10">
                 <a href="#work" className="btn-solid">
                   View Our Work <i className="fa-solid fa-arrow-up-right text-sm"></i>
                 </a>
@@ -64,7 +64,7 @@ export default async function LandingPage() {
                 </a>
               </div>
 
-              <div className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-inkdim">
+              <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-inkdim">
                 <a href={`mailto:${contactEmail}`} className="flex items-center gap-2 hover:text-amber transition">
                   <i className="fa-solid fa-envelope"></i> {contactEmail}
                 </a>
@@ -76,26 +76,8 @@ export default async function LandingPage() {
                 </span>
               </div>
             </div>
-
-            <div className="reveal in" style={{ transitionDelay: '.1s' }}>
-              <div className="frame aspect-[4/5] max-w-sm mx-auto">
-                <span className="corner tl"></span>
-                <span className="corner tr"></span>
-                <span className="corner bl"></span>
-                <span className="corner br"></span>
-                <span className="badge-tag">
-                  <i className="fa-solid fa-circle text-[6px] text-ember align-middle mr-1 animate-pulse"></i>REC
-                </span>
-                <span className="timecode">00:00:14:07</span>
-                <div className="play-btn">
-                  <span>
-                    <i className="fa-solid fa-play text-ink text-sm ml-0.5"></i>
-                  </span>
-                </div>
-                <div className="cap">CaSSeTI_showreel_2026.mp4</div>
-              </div>
-            </div>
           </div>
+
 
           {/* Quick stats grid */}
           <div className="max-w-6xl mx-auto mt-20 grid grid-cols-3 gap-4 md:gap-8 reveal in">
@@ -204,7 +186,7 @@ export default async function LandingPage() {
             <p className="eyebrow mb-3 reveal in">02 — Editing</p>
             <h2 className="font-display text-4xl md:text-5xl mb-4 reveal in">Cut For The Feed. Built For The Big Screen.</h2>
             <p className="text-inkdim max-w-xl mb-14 reveal in">
-              Two formats, one standard: fast-paced vertical edits for Reels and Shorts, and slower, cinematic cuts for brand films and ads. Click to watch the showreel clips.
+              Two formats, one standard: fast-paced vertical edits for Reels and Shorts, and slower, long format cuts for brand films and ads. Click to watch the showreel clips.
             </p>
 
             <VideoPortfolio items={items.filter((i) => i.type.startsWith('VIDEO_'))} />
