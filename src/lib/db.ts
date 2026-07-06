@@ -15,7 +15,9 @@ function createPrismaClient() {
     const dbFileName = 'dev.db';
     const tempDbPath = path.join(tempDir, dbFileName);
 
-    if (!process.env.DATABASE_URL) {
+    const isFileDb = !process.env.DATABASE_URL || process.env.DATABASE_URL.startsWith('file:');
+
+    if (isFileDb) {
       if (!fs.existsSync(tempDbPath)) {
         const bundledDbPath = path.join(process.cwd(), 'prisma', dbFileName);
         try {
