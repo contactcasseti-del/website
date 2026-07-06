@@ -2,7 +2,7 @@
 
 export default function ContactForm({
   email = 'connectcasseti@gmail.com',
-  instagramUrl = 'https://instagram.com',
+  instagramUrl = 'https://www.instagram.com/aashu__02__?igsh=OGtxa2t1dXh0MXNl',
   linkedinUrl = 'https://linkedin.com/company/casseti',
   whatsappNumber = '+91 6200539091',
 }: {

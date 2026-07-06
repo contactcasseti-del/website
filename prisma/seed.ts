@@ -90,8 +90,8 @@ async function main() {
   const settings = [
     { key: 'whatsapp_number', value: '+91 6200539091' },
     { key: 'contact_email', value: 'connectcasseti@gmail.com' },
-    { key: 'instagram_url', value: 'https://instagram.com' },
-    { key: 'instagram_username', value: '@casseti.agency' },
+    { key: 'instagram_url', value: 'https://www.instagram.com/aashu__02__?igsh=OGtxa2t1dXh0MXNl' },
+    { key: 'instagram_username', value: '@aashu__02__' },
     { key: 'linkedin_url', value: 'https://linkedin.com/company/casseti' },
   ];
 

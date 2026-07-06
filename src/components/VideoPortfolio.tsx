@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { use3DTilt } from '@/hooks/use3DTilt';
 
 type VideoItem = {
   id: string;
@@ -39,6 +40,7 @@ function VideoCard({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const { cardRef, tiltStyle, handleMouseMove, handleMouseLeave } = use3DTilt(12);
 
   const isEmbed =
     item.url.includes('drive.google.com') ||
@@ -56,7 +58,7 @@ function VideoCard({
             setIsVisible(true);
             // Attempt play directly — onCanPlay will also fire when ready
             if (!isEmbed && videoRef.current) {
-              videoRef.current.play().catch(() => {});
+              videoRef.current.play().catch(() => { });
             }
           } else {
             setIsVisible(false);
@@ -95,15 +97,23 @@ function VideoCard({
   };
 
   return (
-    <div ref={containerRef} className="w-full">
+    <div ref={containerRef} className="w-full" style={{ perspective: '1000px' }}>
       <button
+        ref={cardRef as any}
         onClick={() => onClick(item, optimizedUrl)}
         onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          handleMouseLeave();
+        }}
+        onMouseMove={handleMouseMove}
         className={`frame w-full text-left cursor-pointer group focus:outline-none relative overflow-hidden ${
           item.type === 'VIDEO_9_16' ? 'aspect-[9/16]' : 'aspect-video'
         }`}
-        style={{ transitionDelay: `${idx * 0.05}s` }}
+        style={{ 
+          ...tiltStyle,
+          transitionDelay: `${idx * 0.05}s` 
+        }}
       >
         {/* Background Media */}
         {isVisible && isEmbed ? (
@@ -124,7 +134,7 @@ function VideoCard({
             // Play the instant the browser has buffered enough — no waiting
             onCanPlay={() => {
               if (isVisible && videoRef.current) {
-                videoRef.current.play().catch(() => {});
+                videoRef.current.play().catch(() => { });
               }
             }}
             className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none"
@@ -182,7 +192,7 @@ export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
         isEmbed: true,
       };
     }
-    
+
     // Google Drive links
     const driveRegex = /(?:drive\.google\.com\/file\/d\/|drive\.google\.com\/open\?id=)([a-zA-Z0-9_-]{25,})/i;
     const driveMatch = url.match(driveRegex);
@@ -289,9 +299,8 @@ export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
             </div>
 
             {/* Video container */}
-            <div className={`relative bg-black flex items-center justify-center ${
-              activeVideo.type === 'VIDEO_9_16' ? 'aspect-[9/16] max-h-[70vh] mx-auto' : 'aspect-video w-full'
-            }`}>
+            <div className={`relative bg-black flex items-center justify-center ${activeVideo.type === 'VIDEO_9_16' ? 'aspect-[9/16] max-h-[70vh] mx-auto' : 'aspect-video w-full'
+              }`}>
               {isEmbed ? (
                 <iframe
                   src={embedUrl}
@@ -320,8 +329,8 @@ export default function VideoPortfolio({ items }: { items: VideoItem[] }) {
                 <div className="absolute inset-0 flex items-center justify-center bg-void/60 z-10 pointer-events-none">
                   <div className="flex flex-col items-center gap-3">
                     <svg className="animate-spin w-10 h-10 text-amber" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"/>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
                     </svg>
                     <span className="text-[10px] font-mono text-inkdim tracking-widest uppercase">Loading...</span>
                   </div>

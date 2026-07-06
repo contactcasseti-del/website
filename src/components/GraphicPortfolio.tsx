@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { use3DTilt } from '@/hooks/use3DTilt';
 
 type GraphicItem = {
   id: string;
@@ -10,6 +11,55 @@ type GraphicItem = {
   category: string | null;
 };
 
+// Wrapper subcomponent to instantiate a separate ref & hook instance for each graphic card
+function GraphicCard({
+  item,
+  idx,
+  onClick,
+}: {
+  item: GraphicItem;
+  idx: number;
+  onClick: (item: GraphicItem) => void;
+}) {
+  const { cardRef, tiltStyle, handleMouseMove, handleMouseLeave } = use3DTilt(12);
+
+  return (
+    <button
+      ref={cardRef as any}
+      onClick={() => onClick(item)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="frame break-inside-avoid w-full text-left cursor-pointer group focus:outline-none overflow-hidden relative block mb-4"
+      style={{ 
+        ...tiltStyle,
+        transitionDelay: `${idx * 0.05}s` 
+      }}
+    >
+      <span className="corner tl"></span>
+      <span className="corner tr"></span>
+      <span className="corner bl"></span>
+      <span className="corner br"></span>
+
+      {/* Real image — natural aspect ratio */}
+      <div className="w-full transform group-hover:scale-105 transition-transform duration-500">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={item.url}
+          alt={item.title}
+          className="w-full h-auto object-cover block"
+          loading="lazy"
+        />
+      </div>
+
+      <div className="placeholder-hint opacity-0 group-hover:opacity-100 transition-opacity bg-void/70 duration-300 flex-col">
+        <i className="fa-solid fa-magnifying-glass-plus text-xl text-amber"></i>
+        <span className="text-[10px] uppercase font-mono tracking-wider mt-2">View Work</span>
+      </div>
+      <div className="cap">{item.title}</div>
+    </button>
+  );
+}
+
 export default function GraphicPortfolio({ items }: { items: GraphicItem[] }) {
   const [activeGraphic, setActiveGraphic] = useState<GraphicItem | null>(null);
 
@@ -17,34 +67,12 @@ export default function GraphicPortfolio({ items }: { items: GraphicItem[] }) {
     <div>
       <div className="columns-2 md:columns-3 gap-4 space-y-4">
         {items.map((item, idx) => (
-          <button
+          <GraphicCard
             key={item.id}
-            onClick={() => setActiveGraphic(item)}
-            className="frame break-inside-avoid w-full text-left cursor-pointer group focus:outline-none overflow-hidden relative block mb-4"
-            style={{ transitionDelay: `${idx * 0.05}s` }}
-          >
-            <span className="corner tl"></span>
-            <span className="corner tr"></span>
-            <span className="corner bl"></span>
-            <span className="corner br"></span>
-
-            {/* Real image — natural aspect ratio */}
-            <div className="w-full transform group-hover:scale-105 transition-transform duration-500">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={item.url}
-                alt={item.title}
-                className="w-full h-auto object-cover block"
-                loading="lazy"
-              />
-            </div>
-
-            <div className="placeholder-hint opacity-0 group-hover:opacity-100 transition-opacity bg-void/70 duration-300 flex-col">
-              <i className="fa-solid fa-magnifying-glass-plus text-xl text-amber"></i>
-              <span className="text-[10px] uppercase font-mono tracking-wider mt-2">View Work</span>
-            </div>
-            <div className="cap">{item.title}</div>
-          </button>
+            item={item}
+            idx={idx}
+            onClick={setActiveGraphic}
+          />
         ))}
       </div>
 

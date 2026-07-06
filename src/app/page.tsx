@@ -23,8 +23,8 @@ export default async function LandingPage() {
   const whatsappNumber = settingsMap.get('whatsapp_number') || '+91 6200539091';
   const whatsappClean = whatsappNumber.replace(/[^0-9]/g, '');
   const contactEmail = settingsMap.get('contact_email') || 'connectcasseti@gmail.com';
-  const instagramUrl = settingsMap.get('instagram_url') || 'https://instagram.com';
-  const instagramUsername = settingsMap.get('instagram_username') || '@casseti.agency';
+  const instagramUrl = settingsMap.get('instagram_url') || 'https://www.instagram.com/aashu__02__?igsh=OGtxa2t1dXh0MXNl';
+  const instagramUsername = settingsMap.get('instagram_username') || '@aashu__02__';
   const linkedinUrl = settingsMap.get('linkedin_url') || 'https://linkedin.com/company/casseti';
 
   return (
