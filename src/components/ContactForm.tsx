@@ -35,9 +35,6 @@ export default function ContactForm({
         <span className="flex items-center gap-2">
           <i className="fa-solid fa-location-dot"></i> Remote · Worldwide
         </span>
-        <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-amber transition">
-          <i className="fa-brands fa-linkedin"></i> {linkedinUrl.replace('https://', '').replace('http://', '')}
-        </a>
       </div>
     </div>
   );

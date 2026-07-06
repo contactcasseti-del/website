@@ -65,7 +65,7 @@ export default async function LandingPage() {
               </p>
 
               <div className="flex flex-wrap justify-center gap-3 mb-10">
-                <a href="#work" className="btn-solid">
+                <a href="#editing" className="btn-solid">
                   View Our Work <i className="fa-solid fa-arrow-up-right text-sm"></i>
                 </a>
                 <a href="#contact" className="btn-outline">
