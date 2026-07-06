@@ -12,14 +12,15 @@ type VideoItem = {
 };
 
 // Transform Cloudinary video URLs to serve optimized low-bitrate preview versions
-// This dramatically reduces buffering time from 30s down to ~2-3s
-function getOptimizedVideoUrl(url: string): string {
+function getOptimizedVideoUrl(url: string, type: string): string {
   if (url.includes('res.cloudinary.com') && url.includes('/video/upload/')) {
-    // Insert Cloudinary transformations: auto format (WebM in Chrome = smaller), 
-    // low quality for preview, auto video codec, cap at 720p width
+    // 9:16 portrait videos: cap HEIGHT to 720px → output is ~405×720 (small)
+    // 16:9 landscape videos: cap WIDTH to 720px → output is ~720×405 (small)
+    // Without this, w_720 on a 9:16 video = 720×1280 (3× bigger = 3× slower!)
+    const sizeCap = type === 'VIDEO_9_16' ? 'h_720' : 'w_720';
     return url.replace(
       '/video/upload/',
-      '/video/upload/f_auto,q_auto:low,vc_auto,w_720/'
+      `/video/upload/f_auto,q_auto:low,vc_auto,${sizeCap}/`
     );
   }
   return url;
@@ -45,7 +46,7 @@ function VideoCard({
     item.url.includes('youtu.be') ||
     item.url.includes('vimeo.com');
 
-  const optimizedUrl = isEmbed ? item.url : getOptimizedVideoUrl(item.url);
+  const optimizedUrl = isEmbed ? item.url : getOptimizedVideoUrl(item.url, item.type);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
