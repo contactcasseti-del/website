@@ -393,14 +393,6 @@ body {
   display: inline-block;
 }
 
-/* Hide default cursor globally on hover-capable devices */
-@media (hover: hover) {
-  *, *::before, *::after {
-    cursor: none !important;
-  }
 
-  input, textarea, [contenteditable="true"] {
-    cursor: text !important;
-  }
-}
+
 

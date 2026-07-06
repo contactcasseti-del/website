@@ -71,14 +71,13 @@ async function main() {
     // 9:16 Vertical Reels
     { type: 'VIDEO_9_16', title: 'Short Motion Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783324347/lv_0_20241001223047_vwpdlq.mp4', category: 'Reels' },
     { type: 'VIDEO_9_16', title: 'Brand Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783325352/lv_0_20260606113802_xrcuoc.mp4', category: 'Reels' },
-    // 16:9 Landscape Videos (add your landscape videos here)
+    // 16:9 Landscape Videos
+    { type: 'VIDEO_16_9', title: 'Documentary Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783283145/lv_0_20241003115246_tzxzkv.mp4', category: 'Cinematic' },
+    { type: 'VIDEO_16_9', title: 'Long Form Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783281945/lv_0_20240724151606_uiuykt.mp4', category: 'Cinematic' },
     // Graphic Design Items
-    { type: 'GRAPHIC', title: 'Feed Post', url: '/images/post.jpg', category: 'Post' },
-    { type: 'GRAPHIC', title: 'Brand Cover', url: '/images/cover.jpg', category: 'Cover' },
-    { type: 'GRAPHIC', title: 'Carousel Slide', url: '/images/carousel.jpg', category: 'Slide' },
-    { type: 'GRAPHIC', title: 'Poster', url: '/images/poster.jpg', category: 'Poster' },
-    { type: 'GRAPHIC', title: 'Story Highlight', url: '/images/story.jpg', category: 'Highlight' },
-    { type: 'GRAPHIC', title: 'Logo Concept', url: '/images/logo.jpg', category: 'Logo' },
+    { type: 'GRAPHIC', title: 'Movie Poster', url: 'https://res.cloudinary.com/a5qhiejq/image/upload/v1783326360/Picsart_24-07-24_00-57-22-467_skis7g.jpg', category: 'Poster' },
+    { type: 'GRAPHIC', title: 'YT Thumbnail', url: 'https://res.cloudinary.com/a5qhiejq/image/upload/v1783328836/IMG-20240722-WA0009_doa2rz.jpg', category: 'Thumbnail' },
+    { type: 'GRAPHIC', title: 'Matchday Posters', url: 'https://res.cloudinary.com/a5qhiejq/image/upload/v1783328836/IMG-20240722-WA0005_tqpmx1.jpg', category: 'Poster' },
   ];
 
   for (const item of items) {
