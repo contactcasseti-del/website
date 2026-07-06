@@ -74,9 +74,8 @@ async function main() {
     { type: 'VIDEO_9_16', title: 'EDIT_03', url: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-with-neon-makeup-in-dark-room-41785-large.mp4', category: 'Reels' },
     { type: 'VIDEO_9_16', title: 'EDIT_04', url: 'https://assets.mixkit.co/videos/preview/mixkit-dj-playing-music-at-a-neon-club-41796-large.mp4', category: 'Reels' },
     // 16:9 Video Items
-    { type: 'VIDEO_16_9', title: 'FILM_01', url: 'https://assets.mixkit.co/videos/preview/mixkit-hands-adjusting-a-camera-lens-41484-large.mp4', category: 'Cinematic' },
-    { type: 'VIDEO_16_9', title: 'FILM_02', url: 'https://assets.mixkit.co/videos/preview/mixkit-video-editing-software-timeline-close-up-41483-large.mp4', category: 'Cinematic' },
-    { type: 'VIDEO_16_9', title: 'FILM_03', url: 'https://assets.mixkit.co/videos/preview/mixkit-photographer-taking-photos-of-a-neon-sign-41480-large.mp4', category: 'Cinematic' },
+    { type: 'VIDEO_16_9', title: 'Short Motion Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783324347/lv_0_20241001223047_vwpdlq.mp4', category: 'Cinematic' },
+    { type: 'VIDEO_16_9', title: 'Brand Edit', url: 'https://res.cloudinary.com/a5qhiejq/video/upload/v1783325352/lv_0_20260606113802_xrcuoc.mp4', category: 'Cinematic' },
     // Graphic Design Items
     { type: 'GRAPHIC', title: 'Feed Post', url: '/images/post.jpg', category: 'Post' },
     { type: 'GRAPHIC', title: 'Brand Cover', url: '/images/cover.jpg', category: 'Cover' },
